@@ -36,7 +36,7 @@ class RendaFixaCalcPage extends StatelessWidget {
                         readOnly: true,
                         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                         decoration: const InputDecoration(
-                            hintText: "Data do Investimento", icon: Icon(Icons.calendar_today)),
+                            label: Text("Data do Investimento"), icon: Icon(Icons.calendar_today)),
                         textInputAction: TextInputAction.next,
                         controller: _controller.dataInvestimentoController,
                         keyboardType: TextInputType.datetime,
@@ -76,7 +76,7 @@ class RendaFixaCalcPage extends StatelessWidget {
                         readOnly: true,
                         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                         decoration: const InputDecoration(
-                            hintText: "Vencimento do Investimento", icon: Icon(Icons.calendar_today)),
+                            label: Text("Vencimento do Investimento"), icon: Icon(Icons.calendar_today)),
                         textInputAction: TextInputAction.next,
                         controller: _controller.dataVencimentoController,
                         keyboardType: TextInputType.datetime,
@@ -114,7 +114,7 @@ class RendaFixaCalcPage extends StatelessWidget {
                       FormTextFieldStandard(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
                         decoration: const InputDecoration(
-                            hintText: "Valor Inicial", icon: Icon(Icons.monetization_on)),
+                            label: Text("Valor Inicial"), icon: Icon(Icons.monetization_on)),
                         textInputAction: TextInputAction.next,
                         controller: _controller.valorInicialController,
                         keyboardType: TextInputType.number,
@@ -130,8 +130,8 @@ class RendaFixaCalcPage extends StatelessWidget {
                   TableRow(children: [
                     FormTextFieldStandard(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                      decoration:
-                          const InputDecoration(hintText: "Aporte Mensal", icon: Icon(Icons.monetization_on)),
+                      decoration: const InputDecoration(
+                          label: Text("Aporte Mensal"), icon: Icon(Icons.monetization_on)),
                       textInputAction: TextInputAction.next,
                       controller: _controller.aporteMensalController,
                       keyboardType: TextInputType.number,
@@ -144,7 +144,7 @@ class RendaFixaCalcPage extends StatelessWidget {
                     ),
                     FormTextFieldStandard(
                       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-                      decoration: const InputDecoration(hintText: "Taxa Anual", icon: Icon(Icons.percent)),
+                      decoration: const InputDecoration(label: Text("Taxa Anual"), icon: Icon(Icons.percent)),
                       textInputAction: TextInputAction.next,
                       controller: _controller.taxaAnualController,
                       keyboardType: TextInputType.number,
@@ -203,54 +203,48 @@ class RendaFixaCalcPage extends StatelessWidget {
                   ],
                 ),
               ),
-              Obx(() => SizedBox(
-                    height: MediaQuery.of(context).size.height / 2.2,
-                    width: MediaQuery.of(context).size.width,
-                    child: GridView.count(
-                      crossAxisCount: 2,
-                      semanticChildCount: 2,
-                      mainAxisSpacing: 1,
-                      childAspectRatio: 10,
-                      children: List.generate(_controller.responseRendaFixa.value.investimentos?.length ?? 0,
-                          (index) {
-                        printInfo(info: index.toString());
-                        return Container(
-                          color: Colors.green[100],
-                          child: Card(
-                            child: ListTile(
-                              isThreeLine: false,
-                              title: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
-                                    child: Text(
-                                        '${_controller.responseRendaFixa.value.investimentos?[index].mes.toString() ?? ''}/${_controller.responseRendaFixa.value.investimentos?[index].ano.toString() ?? ''}'),
+              Obx(() => Center(
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height / 2.2,
+                      width: MediaQuery.of(context).size.width,
+                      child: ListView.builder(
+                          itemCount: _controller.responseRendaFixa.value.investimentos?.length ?? 0,
+                          itemBuilder: (context, index) => Container(
+                                color: Colors.green[100],
+                                child: Card(
+                                  child: ListTile(
+                                    isThreeLine: false,
+                                    title: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
+                                          child: Text(
+                                              '${_controller.responseRendaFixa.value.investimentos?[index].mes.toString() ?? ''}/${_controller.responseRendaFixa.value.investimentos?[index].ano.toString() ?? ''}'),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
+                                          child: Text(
+                                              ' | Taxa Anual: ${NumberFormat.percentPattern().format(_controller.responseRendaFixa.value.investimentos?[index].percentualAno ?? 0)} a.a'),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
+                                          child: Text(
+                                              ' | Patrimônio: ${NumberFormat.simpleCurrency(locale: 'pt-br').format(_controller.responseRendaFixa.value.investimentos?[index].valorPatrimonio ?? 0)}'),
+                                        ),
+                                      ],
+                                    ),
+                                    subtitle: Row(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
+                                          child: Text(
+                                              ' - Aporte: ${NumberFormat.simpleCurrency(locale: 'pt-br').format(_controller.responseRendaFixa.value.investimentos?[index].valorAporte ?? 0)}'),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
-                                    child: Text(
-                                        ' | Taxa Anual: ${NumberFormat.percentPattern().format(_controller.responseRendaFixa.value.investimentos?[index].percentualAno ?? 0)} a.a'),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
-                                    child: Text(
-                                        ' | Patrimônio: ${NumberFormat.simpleCurrency(locale: 'pt-br').format(_controller.responseRendaFixa.value.investimentos?[index].valorPatrimonio ?? 0)}'),
-                                  ),
-                                ],
-                              ),
-                              subtitle: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.fromLTRB(2.0, 0, 2.0, 0),
-                                    child: Text(
-                                        ' - Aporte: ${NumberFormat.simpleCurrency(locale: 'pt-br').format(_controller.responseRendaFixa.value.investimentos?[index].valorAporte ?? 0)}'),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                      }),
+                                ),
+                              )),
                     ),
                   )),
             ],

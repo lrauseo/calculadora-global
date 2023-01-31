@@ -1,4 +1,5 @@
 import 'package:calculadora_global/modules/renda_fixa/renda_fixa_calc_controller.dart';
+import 'package:calculadora_global/repository/renda_fixa_local_repository_impl.dart';
 import 'package:calculadora_global/repository/renda_fixa_repository.dart';
 import 'package:calculadora_global/repository/renda_fixa_repository_impl.dart';
 import 'package:dio/dio.dart';
@@ -10,6 +11,6 @@ class RendaFixaCalcBind extends Bindings {
     Get.lazyPut(() => RendaFixaCalcController());
     Get.lazyPut(() => Dio());
 
-    Get.lazyPut(() => RendaFixaRepositoryImpl());
+    Get.lazyPut<RendaFixaRepository>(() => RendaFixaLocalRepositoryImpl());
   }
 }

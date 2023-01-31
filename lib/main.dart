@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return RobotDetector(
         debug: true,
         child: GetMaterialApp(
-          title: 'Flutter Demo',
+          title: 'Calculadora Global',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),

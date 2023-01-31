@@ -1,20 +1,20 @@
 import 'package:calculadora_global/model/request_renda_fixa.dart';
 import 'package:calculadora_global/model/response_resumo_renda_fixa.dart';
-import 'package:calculadora_global/repository/renda_fixa_repository_impl.dart';
+import 'package:calculadora_global/repository/renda_fixa_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class RendaFixaCalcController extends GetxController {
-  final RendaFixaRepositoryImpl repository = Get.find();
+  final RendaFixaRepository repository = Get.find();
 
   final dataInvestimentoController =
       TextEditingController(text: DateFormat('dd/MM/yyyy').format(DateTime.now()));
   final dataVencimentoController = TextEditingController(
       text: DateFormat('dd/MM/yyyy').format(DateTime.now().add(const Duration(days: 90))));
-  final valorInicialController = TextEditingController();
-  final aporteMensalController = TextEditingController();
-  final taxaAnualController = TextEditingController();
+  final valorInicialController = TextEditingController(text: "0");
+  final aporteMensalController = TextEditingController(text: "0");
+  final taxaAnualController = TextEditingController(text: "0");
   var responseRendaFixa = ResponseResumoRendaFixa().obs;
   String? dataInvestimentoEnvioJson = DateFormat('yyyy-MM-dd').format(DateTime.now());
   String? dataVencimentoEnvioJson =
@@ -32,6 +32,6 @@ class RendaFixaCalcController extends GetxController {
         valorAporteMensal: aporte,
         valorInicial: inicial)));
 
-    responseRendaFixa.value = result!;
+    responseRendaFixa(result!);
   }
 }
