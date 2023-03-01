@@ -40,9 +40,9 @@ class RendaFixaLocalRepositoryImpl extends RendaFixaRepository {
           double lucro = 0;
 
           for (int i = 1; i <= diasInvestimentoParcial; i++) {
-            lucro = patrimonio * (taxaDia / 100);
+            lucro = lucro + patrimonio * (taxaDia / 100);
             patrimonio = patrimonio + lucro;
-            resumo.valorTotalLucro = (resumo.valorTotalLucro ?? 0 + lucro);
+            resumo.valorTotalLucro = resumo.valorTotalLucro ?? 0 + (resumo.valorTotalLucro ?? 0 + lucro);
           }
           var investimento = Investimentos();
 
